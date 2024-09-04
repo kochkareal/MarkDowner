@@ -4,6 +4,12 @@
              xmlns:local="clr-namespace:МаркДовнер"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <!-- Подключение стилей для TextBox -->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Theme/TextBoxTheme.xaml"/>
+                <!-- Вы можете добавить другие словари ресурсов здесь -->
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

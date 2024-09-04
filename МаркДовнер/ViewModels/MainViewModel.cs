@@ -10,6 +10,8 @@ namespace МаркДовнер.ViewModels
     {
         private string _title = string.Empty;
         private string _content = string.Empty;
+
+        // Свойство для хранения и получения заголовка документа
         public string Title
         {
             get => _title;
@@ -20,6 +22,7 @@ namespace МаркДовнер.ViewModels
             }
         }
 
+        // Свойство для хранения и получения содержания документа
         public string Content
         {
             get => _content;
@@ -30,6 +33,7 @@ namespace МаркДовнер.ViewModels
             }
         }
 
+        // Команда для сохранения файла
         public ICommand SaveCommand { get; }
 
         public MainViewModel()
@@ -38,12 +42,15 @@ namespace МаркДовнер.ViewModels
             SaveCommand = new RelayCommand(SaveFile);
         }
 
-        private void SaveFile(object? obj) // Nullable параметр
+        // Метод для сохранения файла
+        private void SaveFile(object? obj)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Text file (*.txt)|*.txt|Markdown file (*.md)|*.md";
-            saveFileDialog.Title = "Сохранить файл как...";
-            saveFileDialog.FileName = GetValidFileName(Title);
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "Text file (*.txt)|*.txt|Markdown file (*.md)|*.md",
+                Title = "Сохранить файл как...",
+                FileName = GetValidFileName(Title)
+            };
 
             if (saveFileDialog.ShowDialog() == true)
             {
@@ -51,14 +58,17 @@ namespace МаркДовнер.ViewModels
             }
         }
 
+        // Метод для очистки имени файла от недопустимых символов
         private string GetValidFileName(string fileName)
         {
             var invalidChars = Path.GetInvalidFileNameChars();
             return string.Concat(fileName.Where(c => !invalidChars.Contains(c)));
         }
 
+        // Событие для уведомления об изменении свойства
         public event PropertyChangedEventHandler? PropertyChanged; // Nullable событие
 
+        // Метод для вызова события изменения свойства
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -1,19 +1,23 @@
 ﻿<!-- Theme/TextBoxTheme.xaml -->
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Стиль для элементов TextBox -->
     <Style TargetType="TextBox" x:Key="TextBoxStyle">
+        <!-- Устанавливает цвет границы элемента TextBox как прозрачный -->
         <Setter Property="BorderBrush" Value="Transparent"/>
+        <!-- Устанавливает толщину границы элемента TextBox как 0 -->
         <Setter Property="BorderThickness" Value="0"/>
+        <!-- Устанавливает фоновый цвет элемента TextBox как белый -->
         <Setter Property="Background" Value="White"/>
         <Style.Triggers>
+            <!-- Триггер для изменения состояния границы при фокусе с клавиатуры -->
             <Trigger Property="IsKeyboardFocused" Value="True">
                 <Setter Property="BorderBrush" Value="Transparent"/>
             </Trigger>
+            <!-- Триггер для изменения состояния границы при общем фокусе -->
             <Trigger Property="IsFocused" Value="True">
                 <Setter Property="BorderBrush" Value="Transparent"/>
             </Trigger>
         </Style.Triggers>
     </Style>
-
-
 </ResourceDictionary>
