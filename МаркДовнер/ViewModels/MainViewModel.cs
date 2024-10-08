@@ -1,77 +1,75 @@
-﻿// ViewModels/MainViewModel.cs
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System.ComponentModel;
-using System.IO;
 using System.Windows.Input;
+using МаркДовнер.ViewModels;
+using System.IO;
 
-namespace МаркДовнер.ViewModels
+public class MainViewModel : INotifyPropertyChanged
 {
-    public class MainViewModel : INotifyPropertyChanged
+    private string _title = string.Empty;
+    private string _content = string.Empty;
+
+    // Свойство для хранения и получения заголовка документа
+    public string Title
     {
-        private string _title = string.Empty;
-        private string _content = string.Empty;
-
-        // Свойство для хранения и получения заголовка документа
-        public string Title
+        get => _title;
+        set
         {
-            get => _title;
-            set
-            {
-                _title = value;
-                OnPropertyChanged(nameof(Title));
-            }
+            _title = value;
+            OnPropertyChanged(nameof(Title));
         }
+    }
 
-        // Свойство для хранения и получения содержания документа
-        public string Content
+    // Свойство для хранения и получения содержания документа
+    public string Content
+    {
+        get => _content;
+        set
         {
-            get => _content;
-            set
-            {
-                _content = value;
-                OnPropertyChanged(nameof(Content));
-            }
+            _content = value;
+            OnPropertyChanged(nameof(Content));
         }
+    }
 
-        // Команда для сохранения файла
-        public ICommand SaveCommand { get; }
+    // Команда для сохранения файла
+    public ICommand SaveCommand { get; }
 
-        public MainViewModel()
+    public MainViewModel()
+    {
+        Title = "Без названия";
+        SaveCommand = new RelayCommand(SaveFile);
+    }
+
+    // Метод для сохранения файла
+    private void SaveFile(object? obj)
+    {
+        SaveFileDialog saveFileDialog = new SaveFileDialog
         {
-            Title = "Без названия";
-            SaveCommand = new RelayCommand(SaveFile);
-        }
+            Filter = "Text file (*.txt)|*.txt|Markdown file (*.md)|*.md",
+            Title = "Сохранить файл как...",
+            FileName = GetValidFileName(Title)
+        };
 
-        // Метод для сохранения файла
-        private void SaveFile(object? obj)
+        if (saveFileDialog.ShowDialog() == true)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog
-            {
-                Filter = "Text file (*.txt)|*.txt|Markdown file (*.md)|*.md",
-                Title = "Сохранить файл как...",
-                FileName = GetValidFileName(Title)
-            };
-
-            if (saveFileDialog.ShowDialog() == true)
-            {
-                File.WriteAllText(saveFileDialog.FileName, Content);
-            }
+            // Сохраняем содержание
+            File.WriteAllText(saveFileDialog.FileName, Content);
         }
+    }
 
-        // Метод для очистки имени файла от недопустимых символов
-        private string GetValidFileName(string fileName)
-        {
-            var invalidChars = Path.GetInvalidFileNameChars();
-            return string.Concat(fileName.Where(c => !invalidChars.Contains(c)));
-        }
+    // Метод для очистки имени файла от недопустимых символов
+    private string GetValidFileName(string fileName)
+    {
+        var invalidChars = Path.GetInvalidFileNameChars();
+        return string.Concat(fileName.Where(c => !invalidChars.Contains(c)));
+    }
 
-        // Событие для уведомления об изменении свойства
-        public event PropertyChangedEventHandler? PropertyChanged; // Nullable событие
+    // Событие для уведомления об изменении свойства
+    public event PropertyChangedEventHandler? PropertyChanged;
 
-        // Метод для вызова события изменения свойства
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+    // Метод для вызова события изменения свойства
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

@@ -32,7 +32,7 @@
         <TextBox
             Grid.Row="0" 
             Margin="5"
-            x:Name="textTitleSmall"
+            x:Name="fileTitleSmall"
             Padding="5" 
             FontSize="14"
             Style="{StaticResource TextBoxStyle}" 
@@ -48,7 +48,7 @@
                 <TextBox 
                     TextWrapping="Wrap"
                     FontWeight="Bold"
-                    Name="textTitle"
+                    Name="fileTitle"
                     Padding="5" 
                     FontSize="36"
                     Margin="0,5,0,5"
@@ -56,18 +56,18 @@
                     Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" 
                     KeyDown="TitleBox_KeyDown"/>
 
-                <TextBox 
-                    Name="textContent"
-                    AcceptsReturn="True"
-                    VerticalScrollBarVisibility="Auto"
-                    TextWrapping="Wrap"
-                    Padding="5,0,0,300"
-                    BorderBrush="White"
-                    Background="White"
-                    Margin="0,0,0,100"
-                    Style="{StaticResource TextBoxStyle}" 
-                    FontSize="16"
-                    Text="{Binding Content, UpdateSourceTrigger=PropertyChanged}"/>
+                <RichTextBox 
+                        Name="textContent"
+                        AcceptsReturn="True"
+                        VerticalScrollBarVisibility="Auto"
+                        Padding="5,0,0,300"
+                        BorderBrush="White"
+                        Background="White"
+                        Margin="0,0,0,100"
+                        FontSize="16"
+                        TextChanged="RichTextBoxTextChanged"
+                        SelectionChanged="RichTextBoxSelectionChanged"
+                        KeyDown="RichTextBoxKeyDown"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>
